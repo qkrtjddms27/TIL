@@ -45,3 +45,19 @@ spring-boot-starter-logging
  > logback
  > slf4j
 ```
+
+##### log4j
+
+아래로 내려갈수록 심각한 오류.
+1. trace : debug보다 아래단계, 덜 중요하지만 변수를 쫓는 정도의 로그를 찍는데 사용함.
+2. debug : debug를 위해서 사용하는 logging level.
+3. info : 진행정보, 상태 정보를 찍는데 사용함.
+4. warn : 잠재적 오류, 경고성 정보를 로깅하는데 사용함.
+5. error : 오류가 발생했을 경우 사용함.
+
+### 테스트 라이브러리
+
+juonit : 테스트 프레임워크
+mockito : 목 라이브러리
+assertj : 테스트 코드를 좀 더 편하게 작성하게 도와주는 라이브러리
+spring-test : 스프링 통합 테스트 지원
