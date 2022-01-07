@@ -61,3 +61,17 @@ juonit : 테스트 프레임워크
 mockito : 목 라이브러리
 assertj : 테스트 코드를 좀 더 편하게 작성하게 도와주는 라이브러리
 spring-test : 스프링 통합 테스트 지원
+
+### View 환경설정
+
+resources/static/index.html 에서 시작
+
+#### thymelef
+
+동적 컨텐츠를 생성할때 사용된다.<br/>
+JPS와 유사하지만 JSP는 현재 사용하지 않는 추세이다. <br/>
+
+```
+./gradlew clean
+clean을 추가하면 완전히 지우고 다시 빌드함.
+```
