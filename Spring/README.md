@@ -71,6 +71,8 @@ resources/static/index.html 에서 시작
 동적 컨텐츠를 생성할때 사용된다.<br/>
 JPS와 유사하지만 JSP는 현재 사용하지 않는 추세이다. <br/>
 
+
+#### 빌드
 ```
 ./gradlew clean
 clean을 추가하면 완전히 지우고 다시 빌드함.
