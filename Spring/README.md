@@ -73,7 +73,88 @@ JPS와 유사하지만 JSP는 현재 사용하지 않는 추세이다. <br/>
 
 
 #### 빌드
+
 ```
 ./gradlew clean
 clean을 추가하면 완전히 지우고 다시 빌드함.
+```
+
+#### MVC와 템플릿 엔진
+
+##### Controller
+```
+@controller
+public class Hellocontroller {
+
+	@GetMapping("hello")
+	public String hello(Model model){
+		model.addAttribute("name", "hello!!");
+		return "hello";
+	}
+	
+	@GetMapping("hello-mvc")
+	public String helloMvc(@RequestParam("name") String name, Model model){
+		model.addAttribute("name", name);
+		return "hello-template";
+	}
+}
+```
+
+##### View (templates/hello-template.html)
+
+```
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<p th:text="'hello ' + ${name}">hello! empty</p>
+</body>
+</html>
+```
+
+##### API 예제
+
+```
+	@GetMapping("hello-string")
+	@ResponseBody
+	public String helloString(@RequestParam("name") String name) {
+		return "hello " + name;
+	}
+	
+	@GetMapping("hello-api")
+	@ResponseBody
+	public String helloString(@RequestParam("name") String name) {
+		Hello hello = new Hello();
+		hello.setName(name);
+		return hello;
+	}
+	
+	static class Hello {
+		private String name;
+		
+		public String getName() {
+			return name;
+		}
+		
+		public void setName() {
+			this.name = name;
+		}
+	}
+```
+
+객체가 반환이 될 때는 기본 값이 JSON방식으로 데이터를 만들어서 반환되는 것이 기본 설정이다.
+
+#### Getter, Setter
+
+자바 빈 규약. 메서드를 통해서 접근하게 됨.
+```
+	static class Hello {
+		private String name;
+		
+		public String getName() {
+			return name;
+		}
+		
+		public void setName() {
+			this.name = name;
+		}
+	}
 ```
