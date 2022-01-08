@@ -141,6 +141,10 @@ public class Hellocontroller {
 ```
 
 객체가 반환이 될 때는 기본 값이 JSON방식으로 데이터를 만들어서 반환되는 것이 기본 설정이다.
+@ResponseBody 를 사용하게 되면, viewResolver 대신 HttpMessageConverter가 동작. <br/>
+기본 문자처리는  **StringHttpMessageConverter**, 객체는 **MappingJackson2HttpMessageConverter**<br/>
+Jackson은 객체를 JSON으로 만들어주는 유명한 라이브러리 중 하나. <br/>
+byte 처리 등등 기타 여러 HttpMessageConverter가 기본으로 등록되어 있음.<br/>
 
 #### Getter, Setter
 
@@ -157,4 +161,18 @@ public class Hellocontroller {
 			this.name = name;
 		}
 	}
+```
+
+#### Optional
+
+NPE(Null Pointer Exception)을 극복하기 위한 Wrapper클래스.
+
+```
+Optional<String> optional = Optional.ofNullable(getName());
+String name = optional.orElse("anonymous") // 값이 없다면 "anonymous" 반환.
+
+List<String> names = getNames();
+List<String> tempNames = list != null > list : new ArrayList<>();
+
+List<String> nameList = Optional.ofNullAble(getList()).orElseGet(() -> new ArrayList<>());
 ```
