@@ -113,31 +113,31 @@ public class Hellocontroller {
 ##### API 예제
 
 ```
-	@GetMapping("hello-string")
-	@ResponseBody
-	public String helloString(@RequestParam("name") String name) {
-		return "hello " + name;
+@GetMapping("hello-string")
+@ResponseBody
+public String helloString(@RequestParam("name") String name) {
+	return "hello " + name;
+}
+
+@GetMapping("hello-api")
+@ResponseBody
+public String helloString(@RequestParam("name") String name) {
+	Hello hello = new Hello();
+	hello.setName(name);
+	return hello;
+}
+
+static class Hello {
+	private String name;
+
+	public String getName() {
+		return name;
 	}
-	
-	@GetMapping("hello-api")
-	@ResponseBody
-	public String helloString(@RequestParam("name") String name) {
-		Hello hello = new Hello();
-		hello.setName(name);
-		return hello;
+
+	public void setName() {
+		this.name = name;
 	}
-	
-	static class Hello {
-		private String name;
-		
-		public String getName() {
-			return name;
-		}
-		
-		public void setName() {
-			this.name = name;
-		}
-	}
+}
 ```
 
 객체가 반환이 될 때는 기본 값이 JSON방식으로 데이터를 만들어서 반환되는 것이 기본 설정이다.
@@ -150,17 +150,17 @@ byte 처리 등등 기타 여러 HttpMessageConverter가 기본으로 등록되�
 
 자바 빈 규약. 메서드를 통해서 접근하게 됨.
 ```
-	static class Hello {
-		private String name;
-		
-		public String getName() {
-			return name;
-		}
-		
-		public void setName() {
-			this.name = name;
-		}
+static class Hello {
+	private String name;
+	
+	public String getName() {
+		return name;
 	}
+	
+	public void setName() {
+		this.name = name;
+	}
+}
 ```
 
 #### Optional
