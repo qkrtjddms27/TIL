@@ -176,3 +176,46 @@ List<String> tempNames = list != null > list : new ArrayList<>();
 
 List<String> nameList = Optional.ofNullAble(getList()).orElseGet(() -> new ArrayList<>());
 ```
+
+### Junit5 / Test
+
+spring 테스트에서 순서는 보장되지 않는다.<br/>
+Junit4와 Junit5의 가장 큰 차이점은 람다를 사용할 수 있고 없고의 차이가 있다.<br/>
+빌드하게되면 Test영역은 포함되지 않는다.
+
+### Assertions 
+
+#### 예제
+```
+junit.jupiter.api.Assertions
+
+assertEquals(2, calculator.add(1,1));
+assertEquals(4, calculator.multiply(2,2)
+	"The optional failure message is now the last parameter");
+assertTrue('a'<'b', () -> "Assertion messages can be lazily evaluated --"
+	+ "to avoid constructing complex messages unnecessarily.");
+```
+
+#### 병행처리 assertAll
+```
+assertAll("person",
+	() -> assertEquals("Jane", person.getFirstName()),
+	() -> assertEquals("Doe", person.getlastName))
+);
+```
+각각의 테스트 결과에 대해서 출력되며, 하나의 테스트만 실패한다면 하나의 테스트의 출력만 출력하게됨.
+
+#### Junit의 어노테이션
+
+@BeforeEach : 각각의 함수가 실행되기전에 실행되는 함수.
+@BeforeAll : 모든 함수가 실행되기전 제일 먼저 실행되는 함수.
+@AfterEach : 각각의 함수가 실행된후 실행되는 함수.
+@AfterAll : 모든 함수가 실행된후 마지막에 실행되는 함수.
+
+### 의존성 주입(DI)
+
+@Service
+@Controller
+@Repository
+
+
