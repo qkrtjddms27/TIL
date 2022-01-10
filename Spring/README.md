@@ -207,10 +207,10 @@ assertAll("person",
 
 #### Junit의 어노테이션
 
-@BeforeEach : 각각의 함수가 실행되기전에 실행되는 함수.
-@BeforeAll : 모든 함수가 실행되기전 제일 먼저 실행되는 함수.
-@AfterEach : 각각의 함수가 실행된후 실행되는 함수.
-@AfterAll : 모든 함수가 실행된후 마지막에 실행되는 함수.
+@BeforeEach : 각각의 함수가 실행되기전에 실행되는 함수. <br/>
+@BeforeAll : 모든 함수가 실행되기전 제일 먼저 실행되는 함수. <br/>
+@AfterEach : 각각의 함수가 실행된후 실행되는 함수. <br/>
+@AfterAll : 모든 함수가 실행된후 마지막에 실행되는 함수. <br/>
 
 ### 의존성 주입(DI)
 
