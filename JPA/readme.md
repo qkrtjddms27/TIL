@@ -1,12 +1,10 @@
 
 
-
-
-
+[TOC]
 
 ## JPA(Java Persistence API)
 
-[TOC]
+
 
 JPA는 인터페이스의 모음
 
