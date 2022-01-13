@@ -102,7 +102,7 @@ Team team = member.getTeam();
 
 #### 신뢰할 수 있는 엔티티, 계층
 
-```
+```java
 class Member{
 	...
 	Order order;
@@ -129,7 +129,7 @@ class MemberService{
 
 DB Isolation Level이 Read Commit이어도 애플리케이션에서 Repeatable Read 보장. (?????)
 
-```
+```java
 transaction.begin();
 
 em.persist(memberA);
@@ -138,7 +138,7 @@ em.persist(memberC);
 // 여기까지 Insert SQL을 데이터베이스에 보내지 않는다.
 
 // 커밋하는 순간 데이터베이스에 insert sql을 모아서 보낸다.
-transaction.commit();;
+transaction.commit();
 ```
 
 
@@ -207,7 +207,7 @@ JPA 구동 방식. 자바 ORM 표준 JPA 프로그래밍 - 기본편. 김영한.
 
 
 
-```
+```java
 public class JpaMain {
 
 	public static void main(String[] args){ // jpa 시작
@@ -387,7 +387,7 @@ transaction.commit();
 
 batch_size : 한 방에 모아서 보내는 단위를 설정할 수 있다.
 
-```
+```xml
 <property name = "hibernate.jdbc.batch_size" value="10"/>
 ```
 
@@ -624,3 +624,100 @@ public class Member {
   -  AUTO: 방언에 따라 자동 지정, 기본값
 
 - allocationSize : DB의 seq값을 미리 size만큼 가져와서 사용. defalut 값 50.
+
+
+
+### 연관관계 매핑 기초
+
+DB에 맞춰서 설계하는게 아닌 자바스럽게 설계를 도와준다.
+
+**방향** : 단방향, 양방향
+
+**다중성** : 다대일, 일대다, 일대일, 다대다
+
+
+
+```java
+public class Team {
+	long teamId;
+	...
+}
+
+public class Member {
+	long teamId;
+	...
+}
+// Team과 Member 다대일 관계로 설계되어있다.
+
+Member findMember = em.find(Member.class, member.getId()); // Member를 객체를 가져온다.
+
+Long findTeamId = findMember.getTeamId();  // 찾은 Member객체의 teamId를 가져온다.
+Team findTeam = em.find(Team.class, findTeamId); // 가져온 teamId를 통해서 Team객체를 가져온다.
+// 객체 탐색이 어렵다...
+```
+
+
+
+- 테이블은 외래 키로 조인을 사용해서 연관된 테이블을 찾는다.
+- 객체는 참조를 사용해서 연관된 객체를 찾는다.
+
+- 객체 그래프 탐색이 가능해짐.
+
+  
+
+#### 단방향 연관관계
+
+```java
+public class Team {
+	private long teamId;
+	...
+}
+
+public class Member {
+//  long teamId; // 개편 전.
+    
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+	private Team team;  // 개편 후.
+	...
+}
+
+Member findMember = em.find(Member.class, member.getId());
+// Long findTeamId = findMember.getTeamId();
+// Team findTeam = em.find(Team.class, findTeamId);
+Team findTeam = findMember.getTeam();
+
+```
+
+
+
+#### 양방향 연관관계
+
+```java
+public class Team {
+	private long teamId;
+    
+    @OneToMany(mappedBy = "team")
+	private List<Member> members = new ArrayList<>(); // 추가
+	...
+}
+
+public class Member {
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+	private Team team;
+	...
+}
+```
+
+
+
+#### 연관관계의 주인과 mappedBy
+
+- 객체와 테이블 관계의 차이를 이해해야됨.
+- 객체를 양방향으로 참조하려면 단방향 연관관계를 2개 만들어야된다.
+
+- 값을 **같이** 갱신해줘야 됨.
+- 주인이 아닌쪽은 수정은 불가능하고 읽기만 가능.
+- 외래키가 있는 곳을 연관관계의 주인으로 설정.
+- 위 내용과 별개로 양방향 관계일때는 변경 시 순수 객체를 고려하여 양방향에 값을 셋팅해야된다.
