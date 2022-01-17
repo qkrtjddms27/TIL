@@ -11,7 +11,7 @@ SpringBoot : 2.6.2 <br/>
 최근 Gradle, Maven 둘 다 /src에 /main, / test 가 나눠져있다. <br/>
 스프링이 자체적으로 Tomcat 서버를 띄워준다.
 #### 스프링이 시작되는 부분
-```
+```java
 @SpringBootApplication
 public class HelloSpringApplication {
 
@@ -25,7 +25,7 @@ public class HelloSpringApplication {
 ### 라이브러리
 
 #### Gradle
-```
+```xml
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -82,7 +82,7 @@ clean을 추가하면 완전히 지우고 다시 빌드함.
 #### MVC와 템플릿 엔진
 
 ##### Controller
-```
+```java
 @controller
 public class Hellocontroller {
 
@@ -102,7 +102,7 @@ public class Hellocontroller {
 
 ##### View (templates/hello-template.html)
 
-```
+```xml
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <p th:text="'hello ' + ${name}">hello! empty</p>
@@ -112,7 +112,7 @@ public class Hellocontroller {
 
 ##### API 예제
 
-```
+```java
 @GetMapping("hello-string")
 @ResponseBody
 public String helloString(@RequestParam("name") String name) {
@@ -149,7 +149,7 @@ byte 처리 등등 기타 여러 HttpMessageConverter가 기본으로 등록되�
 #### Getter, Setter
 
 자바 빈 규약. 메서드를 통해서 접근하게 됨.
-```
+```java
 static class Hello {
 	private String name;
 	
@@ -167,7 +167,7 @@ static class Hello {
 
 NPE(Null Pointer Exception)을 극복하기 위한 Wrapper클래스.
 
-```
+```java
 Optional<String> optional = Optional.ofNullable(getName());
 String name = optional.orElse("anonymous") // 값이 없다면 "anonymous" 반환.
 
@@ -186,7 +186,7 @@ Junit4와 Junit5의 가장 큰 차이점은 람다를 사용할 수 있고 없�
 ### Assertions 
 
 #### 예제
-```
+```java
 junit.jupiter.api.Assertions
 
 assertEquals(2, calculator.add(1,1));
@@ -197,7 +197,7 @@ assertTrue('a'<'b', () -> "Assertion messages can be lazily evaluated --"
 ```
 
 #### 병행처리 assertAll
-```
+```java
 assertAll("person",
 	() -> assertEquals("Jane", person.getFirstName()),
 	() -> assertEquals("Doe", person.getlastName))
@@ -218,4 +218,63 @@ assertAll("person",
 @Controller
 @Repository
 
+### AOP
+> 공통 관심사항과 핵심 관심 사항을 분리하기 위해 필요하다.
+
+#### AOP가 필요한 상황
+- 모든 메소드의 호출 시간을 측정할때
+```java
+public Long join(Member member){
+	validateDuplicateMember(member);
+	memberRepository.save(member);
+	return member.getId();
+}
+```
+
+```java
+public Long join(Member member){
+	long start = System.currentTimeMillis();
+	
+	try{
+		validateDuplicateMember(member);
+		memberRepository.save(member);
+		return member.getId();
+	} finally {
+		long finish = System.currentTimeMillis();
+		long timeMs = finish - start;
+		System.out.println("join = " +timeMs);
+	}
+}
+```
+
+#### AOP생성
+```java
+@Aspect
+public class TimeTraceAop {
+	@Around("exectuion(* hello.hellospring..*(..))")
+	public Object execute(ProceedingJoinPoint joinPoint) throws Throwable {
+		long start = System.currentTimeMillis();
+		try{
+			return joinPoint.proceed();
+		} finally {
+			long finish = System.currentTimeMillis();
+			long timeMs = finish - start;
+			System.out.println("EMD : " + joinPoint.toString() + " " + timeMs + "ms");
+			
+		}
+	}
+}
+```
+
+```java
+@Configuration
+public class Springconfig {
+	...
+	
+	@Bean
+	public TimeTraceAop() {
+		return new timeTraceAop();
+	}
+}
+```
 
