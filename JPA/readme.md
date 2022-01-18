@@ -480,7 +480,7 @@ class Member {
 	@Id
 	private Long id;
     
-    @Column(unique = true, length = 10) // DDL 생성 기능.
+    	@Column(unique = true, length = 10) // DDL 생성 기능.
 	private String name;
 	
 	public Member() {} // 기본 생성자
@@ -521,7 +521,7 @@ class Member {
 	@Id
 	private Long id;
     
-    @Column(unique = true, length = 10) // DDL 생성 기능.
+    	@Column(unique = true, length = 10) // DDL 생성 기능.
 	private String name;
 	
 	// 기본 생성자
@@ -545,7 +545,7 @@ class Member {
 	@Id
 	private Long id;
     
-    @Column(name = "member_name", columnDefinition = "varchar(100) default `EMPTY`")
+    	@Column(name = "member_name", columnDefinition = "varchar(100) default `EMPTY`")
 	private String name;
 	
 	@Enumerated(EnumType.STRING)
