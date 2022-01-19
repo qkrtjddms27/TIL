@@ -1,10 +1,4 @@
-
-
-[TOC]
-
 ## JPA(Java Persistence API)
-
-
 
 JPA는 인터페이스의 모음
 
@@ -818,4 +812,73 @@ public class Member{
 - 연결 테이블을 추가해서 일대다, 다대일 관계로 풀어내야함.
   - 중간 테이블이 숨겨져있고 컬럼이 fk말고 추가되지 않음.
 - 운영상에서는 아무 의미없는 값을 PK로 두는 것이 좋다.(아직 안겪어봐서 모르겠음.)
+
+
+### 임베디드 타입(복합 값 타입)
+- 새로운 값 타입을 직접 정의할 수 있다.
+- JPA는 임베디드 타입이라 함.
+- 주로 기본 값 타입을 모아서 만들어서 복합 값 타입이라고도 함
+- 엔티티 아님.
+- 기본생성자 필수.
+
+#### 장점
+- 재사용
+- 높은 응집도
+- 해당 값 타입만 사용하는 의미 있는 메소드를 만들 수 있음. (Period.isWork())
+- 임베디드 타입을 포함한 모든 값 타입은, 값 타입을 소유한 엔티티에 생명주기를 의존함.
+
+
+```java
+@Entity
+public class Member {
+	@Id
+	@GeneratedValue
+	@Column(name = "MEMBER_ID")
+	private Long id;
+	
+	@Column(name = "USERNAME")
+	private String username;
+	
+	// 기간 - Period
+	@Embedded
+	private Period period;
+	//private LocalDateTime startDate;
+	//private LocalDateTime endDate;
+	
+	// 주소
+	@Embedded
+	private Address address;
+	//private String city;
+	//private String street;
+	//private String zipcode;
+} 
+```
+
+```java
+@Embeddable
+@Getter @Setter
+@NoArgsConstructor
+pulic class Period {
+	private LocalDateTime startDate;
+	private LocalDateTiem endDate;
+	
+	public boolean isWork(){ // 응집도가 높은 메서드를 만들 수 있다.
+		...
+	}
+}
+
+@Embeddable
+@Getter @Setter
+@NoArgsConstructor
+public class Address {
+	private String city;
+	private String street;
+	private String zipcode;
+}
+```
+
+#### 임베디드 타입과 테이블 매핑
+- 임베디드 타입을 사용하기 전과 후에 매핑하는 테이블은 같다.
+- 테이블과 객체를 세밀하게 매핑가능하다.
+- 잘 설계한 ORM 애플리케이션은 매핑한 테이블 수 보다 클래스 수가 많음.
 
