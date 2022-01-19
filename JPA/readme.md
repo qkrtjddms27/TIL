@@ -882,3 +882,21 @@ public class Address {
 - 테이블과 객체를 세밀하게 매핑가능하다.
 - 잘 설계한 ORM 애플리케이션은 매핑한 테이블 수 보다 클래스 수가 많음.
 
+#### 값 타입 공유
+```java
+Address address = new Address("city", "street", 10000);
+
+Member member = new Member();
+member.setUsername("member1");
+member.setHomeAddress(address);
+em.persist(member);
+
+Member member2 = new Member();
+member.setUsername("member2");
+member.setHomeAddress(address);
+em.persist(member2);
+
+member.getHomeAddress().setCity("newCity");
+```
+- member2객체의 City값도 변경됨.
+
