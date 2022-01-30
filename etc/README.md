@@ -60,3 +60,158 @@ Pass
 
 Saas
 - 다양한 소프트웨어도 제공
+
+--------
+
+# CORS
+
+> 교차 출처 리소스 공유(Cross-Origin resource Sharing, CORS)는 추가 HTTP 헤더를 사용하여, 한 출청서 실행 중인 웹 애플리케이션이 
+> 다른 출처의 선택한 자원에 접근할 수 있는 권한을 부여하도록 브라우저에 알려주는 체제.
+
+### 교차 출처 요청
+
+https://domain-a.com의 프론트 엔드 JavaScript 코드가 XMLHttpRequest를 사용하여 https://domain-b.com/data.json을 요청한 경우
+보안 상의 이유로, 브라우저는 스크립트에서 시작한 교 차 출저 HTTP 요청을 제한.
+
+### 동작
+
+> 웹 브라우저에서 해당 정보를 읽는 것이 허용된 출처를 서버에서 설명할 수 있는 새로운  HTTP헤더를 추가함으로써 동작.
+
+## proxy 설정
+
+### package.json
+proxy : "접근할 도메인"
+```json
+"proxy":"http://localhost:3001"
+```
+
+## react
+
+#### 변환 전
+```js
+const App = () => {
+    const URL = 'https://snowdeer.com/menu/getMenuList.do?type=2'
+}
+```
+
+#### 변환 후
+```js
+const App = () => {
+    cosnt URL = '/menu.getMenuList.do?type=2'
+}
+```
+
+## SpringBoot
+
+### Configuration (Global)
+
+#### 1. Configuration 어노테이션 추가.
+```java
+@Configuration
+public class WebConfig implements WebMvcConfigurer{
+}
+```
+
+#### 2. WebMvcConfigurer를 implements
+#### 3. addCorsMappings메소드를 Override
+```java
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+    @Override
+    public void addCorsMappings(CorsRegistry registry){
+    }
+}
+```
+
+#### 4. registry.addMapping을 이용해서 CORS를 적용할 URL패턴을 정의할 수 있다.
+```java
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+    @Override
+    public void addCorsMappings(CorsRegistry registry){
+        registry.addMapping("/**");
+    }
+}
+```
+#### 5. allowedOrigins
+> allowedOrigins 메소드를 이용해서 자원 고유를 허락할 Origin을 지정할 수 있다.
+> *로 모든 Origin을 허락할 수 있습니다.
+
+```java
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+    @Override
+    public void addCorsMappings(CorsRegistry registry){
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:8080", "http://localhost 8081");
+    }
+}
+```
+
+```java
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+    @Override
+    public void addCorsMappings(CorsRegistry registry){
+        registry.addMapping("/**")
+                .allowedOrigins("*");
+    }
+}
+```
+
+#### 6. allowedMethods
+> allowedMethods를 이용해서 허용할 HTTP method를 지정할 수 있다.
+> "*"를 이용하여 모든 method를 허용할 수 있다.
+```java
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+    @Override
+    public void addCorsMappings(CorsRegistry registry){
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("GET", "POST");
+    }
+}
+```
+
+#### 7. maxAge
+```java
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+    @Override
+    public void addCorsMappings(CorsRegistry registry){
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("*")
+                .maxAge(3000);
+                
+    }
+}
+```
+
+#### 8. 원하는 곳에 annotation 활용
+**클래스**
+```java
+@RequestMapping("/somePath")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+public class SomeController{
+}
+
+```
+**메소드**
+```java
+@RestController
+@RequestMapping("/somePath")
+public class SomeController{
+    @CrossOrigin(origins="*")
+    @RequsetMapping(value = "/{something}", method = ReqeustMethod.DELETE)
+    public ResponseEntity<STring> delete(@PathVariable long reservationNo) throws Excepion{
+    }
+}
+```
+#### defalut 설정
+- Allow all origins.
+- Allow "simple" methods GET, HEAD and POST.
+- Allow all headers.
+- Set max age to 1800 seconds
+
