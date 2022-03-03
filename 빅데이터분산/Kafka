@@ -1,0 +1,49 @@
+## Kafka
+- Kafka는 Pub-Sub 모델의 메시지 큐 입니다.
+- 분산환경에 특화되어있음.
+
+### Kafka 구성요소
+- **Event** kafka에서 Produce와 Consumer가 데이터를 주고 받은 단위.
+- **Producer** kafka에 이벤트를 게시하는 클라이언트 어플리케이션을 의미.
+- **Consumer** Topic을 구독하고 이로부터 얻어낸 이벤트를 처리하는 클라이언트 어플리케이션.
+- **Topic** 이벤트가 쓰이는 곳.
+  + Consumer 는 Topic 으로 부터 이벤트를 가져와 처리.
+  + Topic 은 파일시스템의 폴더와 유사하며, 이벤트는 폴더안의 파일과 유사.
+  + **Partition**
+    * Topic 는 여러 Broker 에 분산되어 저장.
+    * 같은 키를 가지는 이벤트는 항상 같은 Partition 에 저장합니다.
+    * Kafka 는 Topic 의 Partition 에 지정된 Consumer 가 항상 정확히 동일한 순서로 Partition 의 이벤트를 읽는 것을 보장.
+
+### Producer 와 Consumer 의 분리
+- Kafka 의 Producer 와 Consumer 는 완전 별개로 동작.
+- Producer 는 Broker 의 Topic에 메시지를 게시.
+- Consumer 는 Broke 의 특정 Topic 에서 메시지를 가져와 처리.
+
+### Push 와 Pull 모델
+- kafka 의 Consumer 는 pull 모델을 기반으로 메시지 처리를 진행.
+- Consumer가 필요할때, Broker로 부터 메시지를 가져와 처리하는 형태.
+  + pull 모델은 Consumer 가 처리 가능한 때에 메시지를 가져와 처리하기 때문에 다양한 소비자를 다루기가 쉽다.
+  + 마지막으로 처리된 메시지 이후의 메시지를 Consumer가 처리가능한 때에 모두 가져오기 때문에 불필요한 지연 없이 최적의 일괄처리를 할 수 있다.
+
+### 메시지 추적 (commit 과 offset)
+- 메시지는 지정된 Topic 에 전달.
+- Topic 은 다시 여러 Partition 으로 나뉠 수도 있다.
+- 메시지는 로그에 순차적으로 append.
+- 메시지의 상대적인 위치를 offset 이라고 칭합니다.
+
+#### Commit 과 Offset
+- Consumer의 poll() 은 이전에 commit 한 offset 이 존재.
+- 읽어온 뒤, 마지막 offset을 commit
+- commit 한 offset 이후의 메시지를 읽어와 처리.
+
+#### 소비된 메시지 기록시점
+- Broker 가 메시지를 네트워크를 통해 Consumer 에게 전달할때 마다, 즉시, Consumer 가 메시지 처리를 실패하면 해당 메시지가 손실.
+
+#### 중복 메시지 전송과 멱등성
+- 우선 Consumer 가 메시지를 성공적으로 처리, 승인을 보내기전에 Broker 가 실패하였다고 판단하고 다시 메시지를 보내게 되면, Consumer 는 같은 메시지를 두 번 처리하게 됨.
+- Consumer 는 멱등성을 고려해야 함.
+  + 같은 메시지를 특수한 상호아에 의해 여러번 받아서 여러번 처리하더라도, 한 번 처리한것과 같은 결과를 가지도록 설계해야함.
+
+### Consumer Group
+- 하나의 Topic 을 구독하는 여러 Consumer 들의 모음.
+- Group 화 하는 이유는 가용성 떄문.
