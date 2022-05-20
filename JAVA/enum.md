@@ -64,7 +64,7 @@ class NonSafeConst {
 eunm은 열거형이라고 부르며, 타입 정확한 값 뿐만 아니라 **타입을 체크 할 수 있다.**
 
 ## enum 타입의 장점
-- 문자열과 비교해 IDE의 적극적인 지원을 받고 있다. (자동완성, 오타검증, 텍스트 리팩토링)
+- 문자열과 비교해 IDE 의 지원. (자동완성, 오타검증, 텍스트 리팩토링)
 - 허용 가능한 값들을 제한할 수 있다.
 - 리팩토링시 변경 범위가 최소화 된다.
     + 내용의 추가가 필요하더라도 enum 코드외에 수정할 필요가 없다.
@@ -101,7 +101,7 @@ public class LegacyCase {
 ```java
 public enum TableStatus {
     Y("1", true),
-    N("2", false)
+    N("2", false);
     
     private String table1Value;
     private boolean table2Value;
@@ -118,17 +118,81 @@ public enum TableStatus {
     public boolean isTable2Value() {
         return table2Value;
     }
+}
+
+
+@Test
+public void origin테이블에서_조회한_데이터를_다른_2테이블에_등록한다() throws Exception {
+  TableStatus origin = selectFromOriginTable();
+
+  String table1Value = origin.table1Valu();
+  boolean table2Value = origin.isTable2Value();
+
+  assertThat(origin, is(TableStatus.Y));
+  assertThat(table1Value, is("1"));
+  assertThat(table2Value, is(true));
+  }
+```
+
+### 상태와 행위를 한곳에서 관리
+
+#### 문제가 있는 코드
+```java
+public class LegacyCalculator {
     
-    @Test
-    public void origin테이블에서_조회한_데이터를_다른_2테이블에_등록한다() throws Exception {
-        TableStatus origin = selectFromOriginTable();
-        
-        String table1Value = origin.table1Valu();
-        boolean table2Value = origin.isTable2Value();
-        
-        assertThat(origin, is(TableStatus.Y));
-        assertThat(table1Value, is("1"));
-        assertThat(table2Value, is(true));
+    public static long calculate(String code, long originValue) {
+        if("CALC_A".equals(code)) {
+            return originValue;
+        } else if("CALC_B".equals(code)) {
+            return originValue*3;
+        } else if("CALC_C".equals(code)) {
+            return originValue*10;
+        } else {
+            return 0;
+      } 
     }
+}
+
+
+@Test
+public void 코드에_따라_서로다른_계산하기_기존방식 () throws Exception {
+  String code = selectCode();
+  long originValue = 10000L;
+  long result = LegacyCalculator.calculate(code, originValue);
+
+  assertThat(result, is(10000L));
+}
+```
+- 현재 상황의 문제점
+  + 똑같은 기능을 하는 메소드를 중복 생성할 수 있다.
+    * 메소드가 있다는 것을 알지 못하면 다시 만드는 경우가 생긴다.
+    * 기존의 계산 로직이 변경 될 경우, 다른 사람은 2개의 메소드의 로직을 다 변경해야하는지 해당 부분만 변경하면되는지 알기 어렵다
+    * **관리 포인트가 증가한다.**
+  
+#### 개선된 코드
+```java
+public enum CalculatorType {
+    CALC_A(value -> value),
+    CALC_A(value -> value * 10),
+    CALC_A(value -> value * 3),
+    CALC_ETC(value -> 0L);
+    
+    private Function<Long, Long> expression;
+    
+    CalculatorType(Function<Long, Long> expression) {
+        this.expression = expression;
+    }
+    
+    public long calculate(long value) {
+        return expression.apply(value);
+    }
+}
+@Test
+public void 코드에_따라_서로다른_계산하기_enum () throws Exception {
+    CalculatorType code = selectType();
+    long originValue = 10000L;
+    long result = code.calculate(originValue);
+    
+    assertThat(result, is(10000L));
 }
 ```
