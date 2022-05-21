@@ -1,7 +1,7 @@
-## Spring
+# Spring
 
 
-### 학습 환경 설정
+## 학습 환경 설정
 
 JAVA : 1.8 <br/>
 IDE : Intellij <br/>
@@ -10,7 +10,7 @@ SpringBoot : 2.6.2 <br/>
 
 최근 Gradle, Maven 둘 다 /src에 /main, / test 가 나눠져있다. <br/>
 스프링이 자체적으로 Tomcat 서버를 띄워준다.
-#### 스프링이 시작되는 부분
+### 스프링이 시작되는 부분
 ```java
 @SpringBootApplication
 public class HelloSpringApplication {
@@ -22,9 +22,9 @@ public class HelloSpringApplication {
 }
 ```
 
-### 라이브러리
+## 라이브러리 관리
 
-#### Gradle
+### Gradle
 ```xml
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -46,7 +46,7 @@ spring-boot-starter-logging
  > slf4j
 ```
 
-##### log4j
+#### log4j
 
 아래로 내려갈수록 심각한 오류.
 1. trace : debug보다 아래단계, 덜 중요하지만 변수를 쫓는 정도의 로그를 찍는데 사용함.
@@ -55,24 +55,24 @@ spring-boot-starter-logging
 4. warn : 잠재적 오류, 경고성 정보를 로깅하는데 사용함.
 5. error : 오류가 발생했을 경우 사용함.
 
-### 테스트 라이브러리
+## 테스트 라이브러리
 
-juonit : 테스트 프레임워크
-mockito : 목 라이브러리
-assertj : 테스트 코드를 좀 더 편하게 작성하게 도와주는 라이브러리
+juonit : 테스트 프레임워크 </br>
+mockito : 목 라이브러리 </br>
+assertj : 테스트 코드를 좀 더 편하게 작성하게 도와주는 라이브러리 </br>
 spring-test : 스프링 통합 테스트 지원
 
-### View 환경설정
+## View 환경설정
 
 resources/static/index.html 에서 시작
 
-#### thymelef
+### thymelef
 
 동적 컨텐츠를 생성할때 사용된다.<br/>
 JPS와 유사하지만 JSP는 현재 사용하지 않는 추세이다. <br/>
 
 
-#### 빌드
+### 빌드
 
 ```
 ./gradlew clean
@@ -100,7 +100,7 @@ public class Hellocontroller {
 }
 ```
 
-##### View (templates/hello-template.html)
+#### View (templates/hello-template.html)
 
 ```xml
 <html xmlns:th="http://www.thymeleaf.org">
@@ -110,7 +110,7 @@ public class Hellocontroller {
 </html>
 ```
 
-##### API 예제
+#### API 예제
 
 ```java
 @GetMapping("hello-string")
@@ -146,7 +146,7 @@ static class Hello {
 Jackson은 객체를 JSON으로 만들어주는 유명한 라이브러리 중 하나. <br/>
 byte 처리 등등 기타 여러 HttpMessageConverter가 기본으로 등록되어 있음.<br/>
 
-#### Getter, Setter
+### Getter, Setter
 
 자바 빈 규약. 메서드를 통해서 접근하게 됨.
 ```java
@@ -162,61 +162,6 @@ static class Hello {
 	}
 }
 ```
-
-#### Optional
-
-NPE(Null Pointer Exception)을 극복하기 위한 Wrapper클래스.
-
-```java
-Optional<String> optional = Optional.ofNullable(getName());
-String name = optional.orElse("anonymous") // 값이 없다면 "anonymous" 반환.
-
-List<String> names = getNames();
-List<String> tempNames = list != null > list : new ArrayList<>();
-
-List<String> nameList = Optional.ofNullAble(getList()).orElseGet(() -> new ArrayList<>());
-```
-
-### Junit5 / Test
-
-spring 테스트에서 순서는 보장되지 않는다.<br/>
-Junit4와 Junit5의 가장 큰 차이점은 람다를 사용할 수 있고 없고의 차이가 있다.<br/>
-빌드하게되면 Test영역은 포함되지 않는다.
-
-### Assertions 
-
-#### 예제
-```java
-junit.jupiter.api.Assertions
-
-assertEquals(2, calculator.add(1,1));
-assertEquals(4, calculator.multiply(2,2)
-	"The optional failure message is now the last parameter");
-assertTrue('a'<'b', () -> "Assertion messages can be lazily evaluated --"
-	+ "to avoid constructing complex messages unnecessarily.");
-```
-
-#### 병행처리 assertAll
-```java
-assertAll("person",
-	() -> assertEquals("Jane", person.getFirstName()),
-	() -> assertEquals("Doe", person.getlastName))
-);
-```
-각각의 테스트 결과에 대해서 출력되며, 하나의 테스트만 실패한다면 하나의 테스트의 출력만 출력하게됨.
-
-#### Junit의 어노테이션
-
-@BeforeEach : 각각의 함수가 실행되기전에 실행되는 함수. <br/>
-@BeforeAll : 모든 함수가 실행되기전 제일 먼저 실행되는 함수. <br/>
-@AfterEach : 각각의 함수가 실행된후 실행되는 함수. <br/>
-@AfterAll : 모든 함수가 실행된후 마지막에 실행되는 함수. <br/>
-
-### 의존성 주입(DI)
-
-@Service
-@Controller
-@Repository
 
 ### AOP
 > 공통 관심사항과 핵심 관심 사항을 분리하기 위해 필요하다.
