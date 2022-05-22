@@ -187,6 +187,7 @@ public enum CalculatorType {
         return expression.apply(value);
     }
 }
+
 @Test
 public void 코드에_따라_서로다른_계산하기_enum () throws Exception {
     CalculatorType code = selectType();
