@@ -1,0 +1,52 @@
+## MapReduce
+
+- 대용량의 데이터를 분산/병렬 컴퓨팅 환경에서 처리하기 위해 제작된 데이터 처리 모델.
+- 큰 데이터가 들어왔을 때, 데이터를 특정 크기의 블록으로 나누고 각 블록에 대해 MapTask와 Reduce Task를 수행.
+- Map Task와 Reduce Task는 입력과 출력으로 Key-Value타입의 자료구조인 Map을 사용한다.
+- Map Task는 처리한 데이터를 (Key, Value)의 형태로 묶는 작업을 의마한다.
+- Map Task는 (key, Value)의 형태의 데이터들을 List 형태로 반환.
+- Reduce는 Map으로 처리한 데이터에서 중복된 Key 값을 지니는 데이터를 제거하고 합치고, 원하는 데이터로 추출하는 작업을 진행.
+
+### Map
+- input data를 가공하여 데이터를 연관성 있는 데이터들로 분류하는 작업.
+- Job의 입력 크기를 스플릿이라함.
+- 각 스플릿마다 하나의 Map Task를 생성하게됨.
+- 만들어진 Map Task는 스플릿의 레코드를 Map 함수로 처리.
+- (key, value) 구조를 가지는 중간 산출물이 생성됨.
+
+### Reduce
+- Map에서 출력된 데이터에서 중복 데이터를 제거하고 원하는 데이터를 추출하는 작업.
+- 중간 산출물을 key 기준으로 각 Reduce로 분배
+- 사용자가 정의한 방법으로 각 key의 관련된 정보를 추출하는 단계
+- 중간 산출물을 정렬하고 하나로 합쳐 Reduce Task로 생성.
+- 사용자 정의 Reduce 함수로 전달.
+- 만들어진 결과물은 안정성을 위해 일반적으로 HDFS에 저장.
+
+### Client
+- 분석하고자 하는 데이터를 Job의 형태로 JobTracker 에게 전달.
+
+### JobTracker
+- NameNode 에 위치
+- 하둡 클러스터에 등록된 전체 Job들을 스케줄링하고 모니터링 수행
+
+### TaskTracker
+- DataNode에서 실행되는 프로그램
+- 사용자가 설정한 맵리듀스 프로그램을 실행
+- JobTracker로부터 작업을 요청받고, 요청받은 Map과 Reduce 개수만큼 Map Task와 Reduce Task를 생성
+- JobTracker에게 상황 보고
+
+### WordCounting 예제.
+
+1. 단어의 개수를 세기 위한 텍스트 파일들을 HDFS에 업로드.
+   - hdfs dfs -put 명령어를 통해 저장.
+2. 순차적으로 블록을 입력으로 받는데, Splitting 과정을 통해 블록 안의 텍스트 파일을 한 줄로 분할.
+3. line을 공백 기준으로 분리하고, Map 연산을 통해 (key, value)의 리스트를 반환.
+4. Shuffling 과정을 통해 연고나성있는 데이터들기리 모아 정렬.
+5. Reduce(단어, 개수)를 수행하여 각 블록에서 특정 단어가 몇번 나왔는지를 계산.
+6. 이후에 결과를 합산하여 HDFS에 파일로 결과를 저장.
+
+### MapReduce의 제어
+Map Task와 Reduce Task는 Master Node에 존재하는 Job Tracker에 의해 제어
+1. Clinet는 Job을 Job Tracker에게 보낸다.
+2. Job Tracker는 Task Tracker 들에게 Map Task와 Reduce Task를 할당한다.
+3. Task Tracker는 할당받은 Map Task와 Reduce Task를 인스턴스화 하여 Task를 수행하여 진행사황을 Job Tracker에게 보고.
