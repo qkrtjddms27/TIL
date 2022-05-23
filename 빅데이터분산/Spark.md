@@ -48,6 +48,23 @@ Kafka, Flume, HDFS, Kinesis, Twitter -> Spark Streaming -> HDFS, Databases, Dash
 - Distributed (분산된) : 스파크 클러스터를 통하여, 메모리에 분산되어 저장됨
 - Data : 파일
 - RDD는 불변의 특성을 가지는데 RDD는 수정이 불가능하기 때문에 새로운 RDD들이 생성.
+
+### Spark Architecture
+- Cluster의 리소스를 관리하는 Cluster Manager와 그 위에서 동작하는 사용자 프로그램인 Spark Application으로 구분.
+- Spark Cluster Manager로는 Spark에 built-in된 기본 모듈 Spark Standalone과 Hadoop에서 사용되는 Yarn이 있다.
+- Standalone은 Standalen Cluster Manager는 Master와 Worker로 구성됨.
+- Spark Master WebUI 또는 Rest API를 통해 연결이 정상적인지 쉽게 확인할 수 있다.
+- Cluster가 구성되면, Spark Application을 실행할 준비가 완료됨.
+
+### SparkContext
+- Spark Cluster와 커뮤니케이션을 담당.
+- SparkContext를 통해 Application에서 요구하는 리소스를 요청.
+- Application은 1개 이상의 Job을 실행시키고, Job은 여러 개의 Task로 나누어서 Executor에게 요청하고 결과를 받으면서 Cluster 컴퓨팅 작업을 수행.
+- Driver Program은 Spark Context를 생성.
+- Worker에 충분한 리소스가 없다면 오류가 발생.
+- Spark Context가 자원을 해제하면서 모든 Executor 프로세스가 종료.
+- 실행중인 환경이라면 생성된 Spark Context에 Job을 요청하는 것.
+
 - 특정동작에 대해서 DAG(Directed Acycli Graph)의 형태를 가짐
 - RDD 관련 정보가 유실되었을 경우, 그래프를 복기하여 다시 계산, 자동 복구 가능. (Fault-tolerant)
 
