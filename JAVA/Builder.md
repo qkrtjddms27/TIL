@@ -95,7 +95,7 @@ public class NutritionFacts {
     }
     
     private NutritionFacts(Builder builder) {
-        servingSize = builder.servings;
+        servingSize = builder.servingSize;
         servings    = builder.servings;
         calories    = builder.calories;
         fat         = builder.fat;
