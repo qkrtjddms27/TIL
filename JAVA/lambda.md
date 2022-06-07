@@ -45,44 +45,5 @@ int roll() {
         * 원본을 수정하지 않는다.
         * 함수형 언어의 장점을 갖고 있다.
     
-## Stream
 
-**Stream API를 사용하기 위해서는 먼저 Stream 을 생성해주어야 한다.**
-
-### Stream 의 구조
-- stream()
-    + 스트림 생성
-
-- filter
-    + 중간 연산 (스트림 변환) - 연속에서 수행 가능합니다.
-    
-- count
-    + 최종 연산 (스트림 사용) - 마지막에 단 한 번만 사용 가능합니다.
-
-### Collection Stream 생성
-```java
-List<String> list = Arrays.asList("a", "b", "c");
-Stream<String> listStream = list.stream();
-```
-
-### 배열의 Stream 생성
-```java
-Stream<String> stream = Stream.of("a", "b", "c");
-Stream<String> stream = Stream.of(new String[] {"a", "b", "c"});
-Stream<String> stream = Arrays.stream(new String[] {"a", "b", "c"});
-```
-
-### Filter
-
-Filter 는 Stream 에서 조건에 맞는 데이터만을 정제하여 더 작은 컬렉션을 만들어내는 연산.
-
-### 결과 만들기
-
-**최대값/최소값/총합/평균/갯수 - Max/Min/Sum/Average/Count**
-```java
-OptionalInt min = IntStream.of(1, 3, 5, 7, 9).min();
-
-int max = IntStream.of().max().orElse(0);
-
-IntStream.of(1 ,3 ,5 ,7 ,9).average().ifPresent(System.out::println);
 ```
