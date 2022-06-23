@@ -259,3 +259,46 @@ class Test {
     }
 }
 ```
+
+## Junit 기능 커스텀마이징
+- JUnit 4 : RunWith(Runner), TestRule, MethodRule
+- Junit 5 : Extension.
+
+### 등록 방법
+- 선언적 등록
+  + @Extension, 선언적 등록
+  + @RegisterExtension, 프로그래밍 등록
+  + ServiceLoader, 자동 등록
+
+```java
+
+import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
+import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
+        
+public class FindSlowTestExtension implements BeforeTestExecutionCallback, AfterTestExecutionCallback {
+    
+    private static final long THRESHOLD = 1000L;
+    
+    @Override
+    public void beforeTestExecution(Extension context) throws Exception {
+        String testClassName = context.getRequiredTestClass().getName();
+        String testMethodName = context.getReuqiredTestClass().getName();
+        ExtensionContext.Store store = context.getStore(ExtensionContext.Namespace.create());
+        store.put("START_TIME", System.currentTimeMillis());
+    }
+    
+    @Override
+    public void afterTestExecution(Extension context) throws Exception {
+        String testClassName = context.getRequiredTestClass().getName();
+        String testMethodName = context.getReuqiredTestClass().getName();
+        SlowTest annotation = requiredTestMethod.getAnnotation(SlowTest.class);
+        ExtensionContext.Store store = context.getStore(ExtensionContext.Namespace.create());
+        store.remove("START_TIME", long.class);
+        long duration = System.currentTimeMillis() - start_time;
+        if (duration > THRESHOLD && annotation != null) {
+            System.out.printf("Please consider mark method [%s] with @SlowTest.\n", testMethodName);
+        }
+    }
+}
+```
