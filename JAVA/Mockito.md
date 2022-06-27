@@ -7,7 +7,7 @@
     + Mock으로 구현된 객체는 모두 Null을 반환하며, 기본 타입의 경우 기본 Default를 반환한다.
 - 반드시 모든 의존성을 끊고 테스트해야 Unit 테스트는 아니다.
     + 단위의 개념은 행동의 단위가 될 수 있다.
-    + 시작할 때 정해서 시작하면된다.
+    + 프로젝트 시작할 때 정해서 시작하면된다.
 - 이미 구현된 클래스를 Mocking 할 필요가 있을까? 한 번쯤 생각해보자.
     + 외부 서비스는 내가 컨트롤하기 힘든 부분은 Mocking 하는 것이 좋다.
 
@@ -39,8 +39,6 @@ class Test {
     @Mock
     MemberService memberService;
   
-    @Mock
-    
     public void testMethod() {
         StudyService studyService = new StudyService(memberService, studyRepository);
         Member member  = new Member();
@@ -48,7 +46,7 @@ class Test {
         member.setEmail("keesun@email.com");
                 
         when(memberService.findById(1L)).thenReturn(Optional.of(member));
-      
+        when(memberService.any()).thenReturn(Optional.of(member));
         assertEquals("kessun@email.com", memberService.findById(1L).get());
         assertEquals("kessun@email.com", memberService.findById(2L).get());
         
