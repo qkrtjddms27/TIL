@@ -1,38 +1,25 @@
 ## JPA(Java Persistence API)
 
-JPA는 인터페이스의 모음
-
-JAP 2.1 표준 명세를 구현한 3가지 구현체가 존재
-
-하이버네이트, EclipseLink, DataNucleus
+- JPA는 인터페이스의 모음
+- JPA 2.1 표준 명세를 구현한 3가지 구현체가 존재 
+  + 하이버네이트, EclipseLink, DataNucleus
 
 
 
 ### JPA 장점
 
-SQL 중심적인 개발에서 객체 중심으로 개발
-
-생산성 : 정말 간단하게 구현이 가능하다.
-
-유지보수 : 한땀 한땀 수정할 필요 없이 일괄적용.
-
-패러다임의 불일치 해결
-
-성능
-
-데이터 접근 추상화와 벤더 독립성
-
-표준
-
-
+- SQL 중심적인 개발에서 객체 중심으로 개발
+  + 생산성 : 정말 간단하게 구현이 가능하다.
+  + 유지보수 : 한땀 한땀 수정할 필요 없이 일괄적용.
+- 패러다임의 불일치 해결
+- 성능
+- 데이터 접근 추상화와 벤더 독립성
+- 표준
 
 ### 패러다임 차이 해결
-
-
-
 **JPA와 상속**
 
-개발자가 할일
+코드
 
 ```java
 class album extends item{ ... } // 상속 관계
@@ -47,9 +34,7 @@ INSERT INTO ITEM ...
 INSERT INTO ALBUM ...
 ```
 
-
-
-개발자가 할일
+코드
 
 ```java
 class album extends item{ ... } // 상속 관계
@@ -57,7 +42,7 @@ class album extends item{ ... } // 상속 관계
 Album album = jpa.find(Album.class, albumId);
 ```
 
-JPA가 처리
+JPA 처리
 
 ```sql
 SELECT I.*, A.*
@@ -65,15 +50,9 @@ SELECT I.*, A.*
 	JOIN ALBUM A ON I.ITEM_ID = A.ITEM_ID
 ```
 
-
-
-
-
 #### 연관 관계(객체 그래프 탐색)
 
-
-
-개발자가 할일
+코드
 
 ```java
 연관관계 저장
@@ -81,18 +60,12 @@ member.setTeam(team);
 jpa.persist(member);
 ```
 
-
-
-JPA가 처리
+JPA 처리
 
 ```java
 Member member = jpa.find(Member.class, memberId);
 Team team = member.getTeam();
 ```
-
-
-
-
 
 #### 신뢰할 수 있는 엔티티, 계층
 
@@ -115,8 +88,6 @@ class MemberService{
 }
 ```
 
-
-
 ### 성능향상
 
 같은 트랜잭션 안에서는 같은 엔티티를 반환 - 약간의 조회 성능 향상. (캐싱)
@@ -135,8 +106,6 @@ em.persist(memberC);
 transaction.commit();
 ```
 
-
-
 #### 지연 로딩
 
 ```java
@@ -144,8 +113,6 @@ Memrber member = memberDAO.find(memberId);
 Team team = member.getTeam();
 String teamName = team.getName();
 ```
-
-
 
 ```sql
 SELECT * FROM MEMBER
@@ -155,8 +122,6 @@ SELECT * FROM TEAM
 // 각각 쿼리가 따로 날아감. 1,2,3
 ```
 
-
-
 #### 즉시 로딩
 
 ```java
@@ -164,8 +129,6 @@ Member member = memberDAO.find(memberId);
 Team team = member.getTeam();
 String teamName = team.getName();
 ```
-
-
 
 ```sql
 SELECT M.*, T.*
@@ -175,18 +138,11 @@ JOIN TEAM ...
 // 쿼리가 첫 번째 라인에서 한 번에 날아감.
 ```
 
-
-
 지연 로딩과 즉시 로딩은 상황에 따라서 다르게 사용한다.
-
-
 
 ### 방언
 
 ---
-
-
-
 persistence.xml파일에서 설정.
 
 - JPA는 특정 데이터베이스에 종속  X.
@@ -194,12 +150,9 @@ persistence.xml파일에서 설정.
 - SQL 표준을 지키지 않는 특정 데이터베이스만의 고유한 기능.
 
 
-
 ![img](https://media.vlpt.us/images/hyun6ik/post/c25121d2-4b85-429b-bfb2-735a2967d651/image.png)
 
 JPA 구동 방식. 자바 ORM 표준 JPA 프로그래밍 - 기본편. 김영한.
-
-
 
 ```java
 public class JpaMain {
@@ -226,11 +179,7 @@ public class JpaMain {
 }
 ```
 
-
-
 #### entity
-
-
 
 JPA에서 Entity로 사용한다는 어노테이션.
 
@@ -410,8 +359,6 @@ Member memberA = em.find(Member.class, "memberA");
 em.remove(memberA);
 ```
 
-
-
 ### 플러시
 
 ---
@@ -433,9 +380,6 @@ em.remove(memberA);
 - JPQL 쿼리 실행 - 플러시 자동 호출
 
 
-
-
-
 ### 준영속 상태
 
 ---
@@ -449,13 +393,7 @@ em.detach(member);
 em.clear();
 ```
 
-
-
 ### 엔티티 매핑
-
----
-
-
 
 #### 객체와 테이블 매핑 : @Entity
 
@@ -488,8 +426,6 @@ class Member {
 }
 ```
 
-
-
 #### 데이터베이스 스키마 자동 생성
 
 - 설정에 따라 DDL을 애플리케이션 실행 시점에 자동 생성
@@ -505,8 +441,6 @@ class Member {
 ```xml
 <property name="hibernate.hbm2ddl.auto" value="create-drop" /`>
 ```
-
-
 
 ```java
 @Entity // defalut
@@ -524,13 +458,7 @@ class Member {
 }
 ```
 
-
-
 ### 필드와 컬럼 매핑
-
----
-
-
 
 ```java
 @Entity
@@ -557,8 +485,6 @@ class Member {
 }
 ```
 
-
-
 - @Column : 컬럼 매핑
   - name :  필드와 매핑할 테이블 이름을 지정, defalut = 객체의 필드 이름
   - insertable, updateable : 등록, 변경 가능 여부 defalut = True
@@ -573,13 +499,7 @@ class Member {
 - @Lob : BLOB, CLOB 매핑
 - @Transient : 특정 필드를 컬럼에 추가시키지 않음.
 
-
-
-
-
 ### 기본 키 매핑
-
----
 
 ```java
 @Entity
