@@ -1,4 +1,4 @@
-# queryDSL 사용방법
+# queryDSL 기본문법
 
 ## JPQL VS queryDSL
 

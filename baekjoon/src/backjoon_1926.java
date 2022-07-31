@@ -19,7 +19,7 @@ public class backjoon_1926 {
         StringTokenizer st = new StringTokenizer(br.readLine());
         int cnt = 0;
         N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());19
+        M = Integer.parseInt(st.nextToken());
 
         picture = new int[N][M];
         visited = new boolean[N][M];

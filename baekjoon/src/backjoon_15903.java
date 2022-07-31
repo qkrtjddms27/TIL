@@ -20,7 +20,7 @@ public class backjoon_15903 {
             queue.offer(Long.parseLong(st.nextToken()));
 
         for(int i = 0; i<M; i++) {
-            long temp = queue.poll() + queue.poll();1
+            long temp = queue.poll() + queue.poll();
             queue.offer(temp);
             queue.offer(temp);
         }

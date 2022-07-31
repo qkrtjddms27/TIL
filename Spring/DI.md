@@ -1,6 +1,6 @@
 # DI
 
-## 수정자 주입, Setter 주입
+## 생성자 주입, Setter 주입
 
 ```java
 public class Controller {
