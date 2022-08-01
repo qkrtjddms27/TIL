@@ -53,3 +53,49 @@
 - SecurityContextHolder에 설정
 - SecurityContextHolder에 의해 반환된 Authentication은 AuthenticationManger에 의해 검증.
 - ProviderManger를 구현체로 사용.
+
+## WebSecurityConfigurerAdapter
+- 위에서 언급한 필터체인들을 코드로 작성하기 위한 인터페이스.
+- 아래의 예제처럼 HttpSecurity 객체를 가져와서 내부 설정을 한다.
+
+```java
+public class SecurityConfig extends WebSecurityConfigurerAdapter { 
+    
+    @Override
+    protected void configure(HttpSecurity httpSecurity) throws Exception { 
+        httpSecurity
+            // token을 사용하는 방식이기 때문에 csrf를 disable합니다.
+            .csrf().disable()
+
+            .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+
+            .exceptionHandling()
+            .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+            .accessDeniedHandler(jwtAccessDeniedHandler)
+
+            // enable h2-console
+            .and()
+            .headers()
+            .frameOptions()
+            .sameOrigin()
+
+            // 세션을 사용하지 않기 때문에 STATELESS로 설정
+            .and()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
+            .and()
+            .authorizeRequests()
+            .antMatchers("/api/hello").permitAll()
+            .antMatchers("/api/authenticate").permitAll()
+            .antMatchers("/api/signup").permitAll()
+            .antMathcers("/api/login").permitAll()
+
+
+            .anyRequest().authenticated()
+
+            .and()
+            .apply(new JwtSecurityConfig(tokenProvider));
+  }
+}
+```
