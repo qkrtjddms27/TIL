@@ -150,8 +150,6 @@ persistence.xml파일에서 설정.
 - SQL 표준을 지키지 않는 특정 데이터베이스만의 고유한 기능.
 
 
-![img](https://media.vlpt.us/images/hyun6ik/post/c25121d2-4b85-429b-bfb2-735a2967d651/image.png)
-
 JPA 구동 방식. 자바 ORM 표준 JPA 프로그래밍 - 기본편. 김영한.
 
 ```java
@@ -344,11 +342,6 @@ member.setName("ZZZZ"); // JPA가 DB에 쿼리 쏨.
 
 System.out.println("=========");
 ```
-
-
-
-​	![TIL(D+1). [JPA] 영속성 컨텍스트(persistence context) - 박기창님의 블로그 - 인프런 | 커뮤니티](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsXIIUkpbsrupFzYoW-xEA7zkueShP6ntYpg&usqp=CAU)
-
 
 
 **엔티티 삭제** : 엔티티 삭제 변경 감지와 같은 메커니즘.
@@ -689,8 +682,6 @@ public class Member{
 - 일대일
 - 다대다
 
-
-
 #### 다대일 
 
 - 다(**외래키 포함**)대일
@@ -699,11 +690,8 @@ public class Member{
 
 - 가장 많이 사용하는 방법
 
-  ![다대일단방향](readme.assets/다대일단방향-1642237899772.png)
-
 ##### 다대일 양방향
 
-![다대일양방향](readme.assets/다대일양방향.png)
 
 #### 일대다
 
@@ -723,7 +711,6 @@ public class Member{
 - 다대일 연관관계랑 유사한 설계.
 - JoinColumn(name = "테이블 명")은 넣는게 좋다.
   - 디폴트 값으로 사용해도되지만 만들어지는 이름이 지저분함.
-
 
 
 #### 다대다
