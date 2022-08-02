@@ -492,45 +492,7 @@ class Member {
 - @Lob : BLOB, CLOB 매핑
 - @Transient : 특정 필드를 컬럼에 추가시키지 않음.
 
-### 기본 키 매핑
 
-```java
-@Entity
-// @SequenceGenerator(name = "member_seq_generator", sequenceName = "member_seq")
-// @TableGenerator(
-//			name = "MEMBER_SEQ_GENERATOR",
-//			table = "MY_SEQUENCES",
-//			pkColumnValue = "MEMBER_SEQ", allocationSize = 1)
-             
-public class Member {
-
-	@Id
-    //@GeneratedValue(strategy = GeneratoionType.TABLE)
-    //@GeneratedValue(strategy = GeneratoionType.SEQUENCE)
-    @GeneratedValue(strategy = GeneratoionType.IDENTITY)
-	private String id;
-	
-	@Column(name = "name", nullable = false)
-	private String username;
-	
-	// 기본 생성자
-	// getter
-	// setter
-}
-```
-
-
-
-- @Id만 사용
-- @GeneratedValue : 자동생성
-  - IDENTITY : 데이터베이스에 위임.
-  - SEQUENCE : 데이터베이스 시퀀스 오브젝트 사용, ORACLE
-    - @SequenceGenerator 필요
-  - TABLE : 키 생성용 테이블 사용, 모든 DB에서 사용
-    - @TableGenerator 필요
-  -  AUTO: 방언에 따라 자동 지정, 기본값
-
-- allocationSize : DB의 seq값을 미리 size만큼 가져와서 사용. defalut 값 50.
 
 
 
