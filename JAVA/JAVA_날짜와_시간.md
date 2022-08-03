@@ -38,3 +38,83 @@ calendar.add(Calendar.JUNE, 2); // 비정상 코드
 - 13월 같이 잘못 된 월이 넘어가면 객체 생성 시점에서 IllegalFieldValueException을 던진다.
 - 요일 상수는 일괄되게 사용한다.
 - 잘못 된 시간대 ID지정에는 IllegalFieldValueException을 던진다.
+
+### JSR-310
+- DateTime 클래스대신 ZoneDateTime 클래스가 사용된다.
+    + 시간대 정보를 가지고 있는 클래스임을 명시
+- 요일 클래스는 Enum 상수로 제공.
+- 생성자 대신 of() 메서드 같은 static factory 메서드를 사용한다.
+    + static factory는 가독성 있는 이름을 따로 붙일 수 있다.
+    + 생성자와는 달리 한번 생성된 객체를 재활용 할 수도 있다.
+- Joda-Time보다 클래스별 역할이 더 세분화되었다.
+- 서머타임 기간이면 TimeZoneRules.isDaylightSavings() 메서드의 반환값이 true
+- 잘못 지정된 시간대 ID에는 ZoneRulesException이 발생한다.
+- 잘못 된 월 지정에는 객체 생성 시점에서 DateTimeException을 던진다.
+
+
+
+### LocalDate
+- 타임존 개념이 필요없는 날짜 정보를 나타내기 위해서 사용.
+```java
+class Test {
+    void test() {
+        LocalDate today = LocalDate.now();
+        System.out.println("Today is " + today);
+
+        LocalDate birthday = LocalDate.of(1996, 5, 1);
+        System.out.println("My birthday is " + birthday);
+
+        LocalDate christmas = LocalDate.parse("2022-12-25");
+        System.out.println("Last Christmas is " + christmas);
+    }
+}
+```
+
+### LocalTime
+- 타임존 개념이 없는 시간 정보를 나타내기 위해 사용.
+```java
+class Test {
+    void test() {
+        LocalTime currentTime = LocalTime.now();
+        System.out.println("The current time here is " + currentTime);
+
+        LocalTime currentTimeInParis = LocalTime.now(ZoneId.of("Europe/Paris"));
+        System.out.println("The current time in Paris is " + currentTimeInParis);
+
+        LocalTime timeToGoToBed = LocalTime.of(23, 30, 0);
+        System.out.println("I go to bed at " + timeToGoToBed);
+
+        LocalTime timeToGetUp = timeToGoToBed.plusHours(8);
+        System.out.println("I get up at " + timeToGetUp);
+
+        System.out.println("I still go to bed at " + timeToGoToBed);
+    }
+}
+```
+
+### LocalDateTime (JPA 권장)
+
+- Java 1.8 이상 버전에서 사용
+- 앞에서 언급되었던 문제들이 개선되었다
+- 타임존 개념이 필요없는 날짜와 시간 정보 모두를 나타내기 위해서 사용.
+- LocalDate + LocalTime
+```java
+class Test {
+    void printTest() {
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println("Now is " + now);
+
+        LocalDateTime now2 = LocalDateTime.of(LocalDate.now(), LocalTime.now());
+        System.out.println("Now is " + now2);
+
+        LocalDateTime y2k = LocalDateTime.parse("1996-05-01T23:59:59.999");
+        System.out.println("Y2K is " + y2k);
+
+        LocalDateTime dateOfBirth = LocalDateTime.of(1996, 5, 1, 7, 11, 0);
+        System.out.println("My date of birth is " + dateOfBirth);
+
+        LocalDateTime dateOfBirth2 = Year.of(1996).atMonth(5).atDay(1).atTime(7, 11);
+        System.out.println("My date of birth is " + dateOfBirth2);
+    }
+}
+```
