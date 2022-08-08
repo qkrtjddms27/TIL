@@ -114,3 +114,19 @@ em.createQuery("select m from Member m order by m.age desc", Member.class)
   + SELECT o FROM Order o where o.orderAmount > ALL(select p.stockAmount from Product p)
 - 어떤 팀이든 팀에 소속된 회원
   + SELECT m FROM Member m where m.team = ANY (select t from Team t)
+  
+## 페치 조인
+- SQL 조인 종류 X
+- JPQL 에서 성능 최적화를 위해 제공하는 기능
+- 연관된 엔티티나 컬렉션을 SQL 한 번에 함께 조회하는 기능
+- join fetch 명령어 사용
+  + JPQL : select m form Member m join fetch m.team
+  + SQL : select M.*, T.* FROM MEMBER M INNER JOIN TEAM T ON M.TEAM_ID = T.ID
+- 위 예제에서 알 수 있듯 Memeber의 데이터를 로딩 시점에 한 번에 채워넣는다.
+
+### 한계점
+- 페치 조인의 대상에는 별칭을 줄 수 없다.
+- 연관관계를 찾아가는 것은 특정 갯수만 뽑아오는게 아니라 모두 가져오는 것으로 설계되어있음.
+  + 특정 갯수만 뽑아오는 부분은 따로 조회하는 것이 맞다.
+- 둘 이상의 컬렉션은 페치 조인 할 수 없다.
+- 컬렉션을 페치 조인하면 페이징 API를 사용할 수 없다.
