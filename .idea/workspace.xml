@@ -5,20 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0b71f77d-a706-4d16-a352-a163b537deee" name="Default Changelist" comment="JPA : N+1 문제와 페치조인">
-      <change beforePath="$PROJECT_DIR$/JAVA/lambda.md" beforeDir="false" afterPath="$PROJECT_DIR$/JAVA/lambda.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Spring/DI.md" beforeDir="false" afterPath="$PROJECT_DIR$/Spring/DI.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/baekjoon/out/production/baekjoon/backjoon_1197$Edge.class" beforeDir="false" afterPath="$PROJECT_DIR$/baekjoon/out/production/baekjoon/backjoon_1197$Edge.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/baekjoon/out/production/baekjoon/backjoon_1197.class" beforeDir="false" afterPath="$PROJECT_DIR$/baekjoon/out/production/baekjoon/backjoon_1197.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/baekjoon/src/backjoon_1124.java" beforeDir="false" afterPath="$PROJECT_DIR$/baekjoon/src/backjoon_1124.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/baekjoon/src/backjoon_1240.java" beforeDir="false" afterPath="$PROJECT_DIR$/baekjoon/src/backjoon_1240.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/baekjoon/src/backjoon_15903.java" beforeDir="false" afterPath="$PROJECT_DIR$/baekjoon/src/backjoon_15903.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/baekjoon/src/backjoon_17406.java" beforeDir="false" afterPath="$PROJECT_DIR$/baekjoon/src/backjoon_17406.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/baekjoon/src/backjoon_18223.java" beforeDir="false" afterPath="$PROJECT_DIR$/baekjoon/src/backjoon_18223.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/baekjoon/src/backjoon_1926.java" beforeDir="false" afterPath="$PROJECT_DIR$/baekjoon/src/backjoon_1926.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/baekjoon/src/backjoon_2210.java" beforeDir="false" afterPath="$PROJECT_DIR$/baekjoon/src/backjoon_2210.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/baekjoon/src/backjoon_2529.java" beforeDir="false" afterPath="$PROJECT_DIR$/baekjoon/src/backjoon_2529.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/baekjoon/src/backjoon_5212.java" beforeDir="false" afterPath="$PROJECT_DIR$/baekjoon/src/backjoon_5212.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/queryDSL/QueryDSL_기본문법.md" beforeDir="false" afterPath="$PROJECT_DIR$/queryDSL/QueryDSL_기본문법.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/etc/예약어.md" beforeDir="false" afterPath="$PROJECT_DIR$/etc/예약어.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/알고리즘/서로소집합.md" beforeDir="false" afterPath="$PROJECT_DIR$/알고리즘/서로소집합.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +32,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../ssafy_project/rtmc-api" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../java8" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
