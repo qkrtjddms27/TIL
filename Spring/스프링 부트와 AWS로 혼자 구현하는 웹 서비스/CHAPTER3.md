@@ -168,5 +168,44 @@ public Order cancelOrder(int orderId) {
 - 해당 코드에서는 서비스 메서드에서는 트랜잭션과 도메인 간의 순서만 보장.
 - 도메인에서 삭제를 처리하게 유도.
 
-## @RequiredArgsConstructor 
-- 생성자 주입을 사용하는 상황에서 생성자를 계속해서 바꿔줄 필요가 없어짐.
+## Entity 클래스는 Request, Response로 사용하면 안된다.
+- Entity 클래스를 기준으로 테이블이 생성되고, 변경된다.
+- 화면 변경과 관련된 요청값과 응답값은 자주 바뀔 수 있다.
+- DB Layer와 View Layer의 역할을 확실히 분리하는 것이 중요하다.
+  + 잦은 변경마다 Entity를 바꾸는 것은 문제가 많기 때문에.
+  
+## 생성시간/수정시간 자동화화기
+```java
+@Getter
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
+public abstract class BaseTimeEntity { 
+    @CreateDate 
+    private LocalDateTime createDate;
+    
+    @LastModifieDate
+    private LocalDateTime modifiedDate;
+}
+```
+- @MappedSuperclass
+  + JPA Entity 클래스들이 BaseTimeEntity를 상속할 경우 필드들도 컬럼으로 인식하도로 하는 설정.
+_ @EntityListeners(AuditingEntityListener.class)
+  + BaseTimeEntity 클래스에 Auditing 기능을 포함 시킨다. -> 자동으로 값 셋팅하는 설정.
+- @CreateDate
+  + Entity가 생성되어 저장될 때 시간이 자동으로 저장.
+- @LastModifiedDate
+  + 조회한 Entity의 값을 변경할 때 시간이 자동 저장.
+  
+## @RequiredArgsConstructor의 장점
+- 필드 주입, 생성자 주입, Setter 주입
+  + 필드 주입(비권장)
+    * 필드 주입은 테스트 환경에서 해당 값을 변경할 수 없어서 Spring Boot에 의존적으로 작동할 수 밖에 없는 비권장 주입 방법이다.
+  + 생성자 주입(권장)
+    * 생성자 주입은 테스트에 용이하고, 스프링 빈은 스프링 컨테이너에서 싱글턴으로 관리되므로 안정적인 방법
+  + Setter 주입(상황에 따라)
+    * 상황에 따라 변경해야 하는 경우가 있다.
+    * 아직까진 필요한 상황을 경험해보지 못하여 존재하는 것만 알고 있음.
+
+- 생성자 주입은 의존관계 주입에서 권장사항으로 자리잡고 있지만, 단점이 있다. 
+  + 요구하는 필드값이 바뀌면 항상 생성자를 변경해야하는 추가 코드가 발생한다.
+  + 해당이유에서 휴먼에러가 발생할 수 있기 때문에 RequiredArgsConstructor로 관리한다면 해당 단점을 보완할 수 있다. 
