@@ -1,36 +1,18 @@
+const num1 = 20;
+const num2 = 10;
+
 let val;
+val = num1 + num2;
+val = num1 * num2;
+val = num1 - num2;
+val = num1 / num2;
+val = num1 % num2;
 
-// Nubmer to String
-val = String(111);
-val = String(8+4);
+val = Math.E;
+val = Math.PI;
+val = Math.LN10;
 
-console.log(val);
-console.log(typeof val)
-console.log(val.length)
+// ... 등등 많은 함수가 있음
 
-
-// Boolean to String
-val = String(false);
-
-// Date to String
-val = String(new Date());
-
-// toString()
-val = (5).toString();
-
-// String to number
-val = Number('1');
-
-val = Number('1')
-val = Number('true') // 1
-val = Number('false') // 0
-val = Number('null') // 0
-val = Number([1,2,3]) // NaN Not a Number
-
-val = parseInt('111.40')
-val = parseFloat('111.40')
-
-console.log(val);
-console.log(typeof val);
-console.log(val.length)
+Math.round(2.4); // 가장 가까운 숫자를 리턴한다.
 
