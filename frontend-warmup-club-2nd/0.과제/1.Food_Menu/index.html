@@ -1,0 +1,183 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="script.js"></script>
+</head>
+<body>
+  <div class="flex justify-center">
+    <div class="mt-5 text-3xl font-bold text-gray-500 text-center">
+      Food Menu
+    </div>
+  </div>
+  <div class="mx-20 mt-2 w-30 border-t-2 border-blue-300"></div>
+  <div class="mt-4 flex items-center justify-center space-x-4">
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4" data-tag="All">
+      All
+    </button>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4" data-tag="Breakfast">
+      Breakfast
+    </button>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4" data-tag="Lunch">
+      Lunch
+    </button>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4" data-tag="Shakes">
+      Shakes
+    </button>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4" data-tag="Dinner">
+      Dinner
+    </button>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4 w-full max-w-4xl px-4">
+    <script>
+      const data = [
+        {   
+            name : "Dinner A",
+            price : 1000,
+            tag : ["Dinner"],
+            image : "https://via.placeholder.com/150",
+            description : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed interdum convallis turpis, ac vulputate felis mattis sit amet." 
+        },
+        {   
+            name : "Dinner B",
+            price : 500,
+            tag : ["Dinner"],
+            image : "https://via.placeholder.com/150",
+            description : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed interdum convallis turpis, ac vulputate felis mattis sit amet." 
+        },
+        {   
+            name : "Dinner C",
+            price : 2000,
+            tag : ["Dinner"],
+            image : "https://via.placeholder.com/150",
+            description : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed interdum convallis turpis, ac vulputate felis mattis sit amet." 
+        },
+        {   
+            name : "Dinner D",
+            price : 2500,
+            tag : ["Dinner"],
+            image : "https://via.placeholder.com/150",
+            description : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed interdum convallis turpis, ac vulputate felis mattis sit amet." 
+        },
+        {   
+            name : "Breakfast A",
+            price : 2000,
+            tag : ["Breakfast"],
+            image : "https://via.placeholder.com/150",
+            description : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed interdum convallis turpis, ac vulputate felis mattis sit amet." 
+        },
+        {   
+            name : "Breakfast B",
+            price : 1000,
+            tag : ["Breakfast"],
+            image : "https://via.placeholder.com/150",
+            description : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed interdum convallis turpis, ac vulputate felis mattis sit amet." 
+        },
+        {   
+            name : "Lunch A",
+            price : 1000,
+            tag : ["Lunch"],
+            image : "https://via.placeholder.com/150",
+            description : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed interdum convallis turpis, ac vulputate felis mattis sit amet." 
+        },
+        {   
+            name : "Lunch B",
+            price : 1000,
+            tag : ["Lunch"],
+            image : "https://via.placeholder.com/150",
+            description : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed interdum convallis turpis, ac vulputate felis mattis sit amet." 
+        },
+        {   
+            name : "Lunch C",
+            price : 500,
+            tag : ["Lunch"],
+            image : "https://via.placeholder.com/150",
+            description : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed interdum convallis turpis, ac vulputate felis mattis sit amet." 
+        },
+        {   
+            name : "Shakes A",
+            price : 500,
+            tag : ["Shakes"],
+            image : "https://via.placeholder.com/150",
+            description : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed interdum convallis turpis, ac vulputate felis mattis sit amet." 
+        },
+        {   
+            name : "Shakes B",
+            price : 2000,
+            tag : ["Shakes"],
+            image : "https://via.placeholder.com/150",
+            description : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed interdum convallis turpis, ac vulputate felis mattis sit amet." 
+        },
+        {   
+            name : "Shakes C",
+            price : 2000,
+            tag : ["Shakes"],
+            image : "https://via.placeholder.com/150",
+            description : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed interdum convallis turpis, ac vulputate felis mattis sit amet." 
+        },
+        {   
+            name : "Shakes D",
+            price : 2000,
+            tag : ["Shakes"],
+            image : "https://via.placeholder.com/150",
+            description : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed interdum convallis turpis, ac vulputate felis mattis sit amet." 
+        },
+      ];
+
+      const container = document.querySelector('.grid');
+
+      function createCard(item) {
+        const card = document.createElement('div');
+        card.className = 'border p-4 rounded shadow bg-white';
+        card.innerHTML = `
+          <img src="${item.image}" alt="${item.name}" class="w-full h-32 object-cover mb-2 rounded">
+          <h2 class="text-lg font-bold">${item.name}</h2>
+          <p class="text-gray-700">Price: $${item.price}</p>
+          <p class="text-sm text-gray-500">Tags: ${item.tag.join(', ')}</p>
+          <p class="text-gray-600 mt-2">${item.description}</p>
+        `;
+        container.appendChild(card);
+      }
+
+      function displayData(filteredData) {
+        container.innerHTML = ''; 
+        filteredData.forEach(createCard);
+      }
+
+      displayData(data);
+
+      document.querySelectorAll('button').forEach(button => {
+        button.addEventListener('click', function() {
+          const tag = this.dataset.tag; 
+          console.log('tag : ', tag)
+          if (tag === "All") {
+            displayData(data); 
+          } else {
+            const filteredData = data.filter(item => item.tag.includes(tag));
+            displayData(filteredData);
+          }
+        });
+      });
+    </script>
+</body>
+</html>
+
+<style>
+    .custom-underline {
+        position: relative;
+        display: inline-block;
+    }
+    .custom-underline::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -2px; 
+        width: 50%;   
+        height: 2px;
+        padding-left: 3px;
+        background-color: #a7c7e7; 
+    }
+</style>
